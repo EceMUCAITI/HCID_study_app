@@ -15,14 +15,27 @@
 
     }
     .head{
+
         font-size: 80px;
         font-weight: 300;
     }
     .btn-fill-custom {
+        border-radius: 50%;
+        width: 100px;
+        height: 100px;
+        color: #080F2B;
+        background-color: #12A78A;
+    }
+     .btn-fill1-custom {
         width: 250px;
         color: #080F2B;
         background-color: #12A78A;
         font-size: 25px;
+    }
+
+    .btn-fill1-custom:hover {
+      color: #fff;
+      background-color: #165348;
     }
 
     .btn-fill-custom:hover {
@@ -37,24 +50,10 @@
         gap: 20px;                      /* space between items */
     }
 
-    .custom-textarea {
-        width: 1000px;
-        height: 300px;
-        resize: none;
-        background-color: #080F2B;
-        border-color: #12A78A;
-        border-radius: 0;
-    }
-    .text {
-        margin-left: 255px;
-        margin-bottom: 0;
-    }
 
 </style>
 
-<body>
-
-<nav class="navbar bg-body-tertiary p-0" >
+<body><nav class="navbar bg-body-tertiary p-0" >
   <div class="container-fluid" style="background-color: #080F2B;">
     <a class="navbar-brand btn text-white" href="{% url 'flashcard' %}">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
@@ -67,16 +66,26 @@
     </div>
   </div>
 </nav>
-
 <div class="head container text-white">
-    <p class="pt-5 mb-0">Flashcards</p>
+    <p class="pt-5 mb-0">Generate Flashcards from File</p>
     <hr class="mt-0">
 </div>
-<p class=" text text-white fs-4 ">Enter Text:</p>
 <div class="center-container">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <!-- Hidden file input -->
+        <input type="file" id="fileInput" name="file" style="display:none;" onchange="this.form.submit()">
 
-    <textarea class="form-control custom-textarea"></textarea>
-    <a type="button" class="btn btn-fill-custom d-flex justify-content-center align-items-center" href="{% url 'load'%}">
+        <!-- Label styled as button -->
+        <label for="fileInput" class="btn btn-fill-custom d-flex justify-content-center align-items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+                <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z"/>
+            </svg>
+        </label>
+    </form>
+        <h5 class="text-white ">Choose a file</h5>
+    <a type="button" class="btn btn-fill1-custom d-flex justify-content-center align-items-center" href="{% url 'load'%}">
         Generate Flashcards</a>
 </div>
 </body>

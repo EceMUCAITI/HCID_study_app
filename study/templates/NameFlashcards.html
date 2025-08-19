@@ -1,76 +1,100 @@
 {% load static %}
+{% load widget_tweaks %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/>
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="{% static 'js/bootstrap.bundle.js' %}"></script>
+<meta charset="UTF-8">
+<title>Title</title>
+<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="{% static 'js/bootstrap.bundle.js' %}"></script>
 </head>
 <style>
-    body {
-        background: #080F2B;
-        font-family: 'Rajdhani', sans-serif;
-
-    }
-    .head{
-        font-size: 80px;
-        font-weight: 300;
-    }
-    .btn-fill-custom {
-        width: 250px;
-        color: #080F2B;
-        background-color: #12A78A;
-        font-size: 25px;
-    }
-
-    .btn-fill-custom:hover {
-      color: #fff;
-      background-color: #165348;
-    }
-    .center-container {
-        min-height: 100vh;              /* full screen height */
-        display: flex;
-        flex-direction: column;         /* stack button + text field */
-        align-items: center;            /* horizontal center */
-        gap: 20px;                      /* space between items */
-    }
-
-    .custom-textarea {
-        width: 1000px;
-        height: 300px;
-        resize: none;
-        background-color: #080F2B;
-        border-color: #12A78A;
-        border-radius: 0;
-    }
-    .text {
-        margin-left: 255px;
-        margin-bottom: 0;
-    }
-
+body {
+    background: #080F2B;
+    font-family: 'Rajdhani', sans-serif;
+}
+.head{
+    font-size: 80px;
+    font-weight: 300;
+}
+.btn-fill-custom {
+    width: 250px;
+    color: #080F2B;
+    background-color: #12A78A;
+    font-size: 25px;
+}
+.btn-fill-custom:hover {
+    color: #fff;
+    background-color: #165348;
+}
+.center-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+.custom-input {
+    width: 1000px;
+    height: 300px;
+    background-color: #0d1c5c; /* deep blue */
+    border: 3px solid #12A78A; /* green border */
+    color: white;
+    font-size: 24px;
+    padding: 20px;
+    border-radius: 0;
+    resize: none;
+}
+.custom-input:focus {
+    outline: none;
+    border-color: #18d1a3;
+    box-shadow: 0 0 10px rgba(18, 167, 138, 0.6);
+}
+.text {
+    margin-left: 255px;
+    margin-bottom: 0;
+}
 </style>
-
 <body>
+<nav class="navbar bg-body-tertiary p-0">
+    <div class="container-fluid" style="background-color: #080F2B;">
+        <a class="navbar-brand btn text-white" href="{% url 'flashcard' %}">
+            <!-- Back icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+            </svg>
+        </a>
+        <div class="d-flex" role="search">
+            <a class="btn text-white" href="{% url 'index' %}">
+                <!-- Home icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="me-2 bi bi-house" viewBox="0 0 16 16">
+                    <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
+                </svg>
+            </a>
+        </div>
+    </div>
+</nav>
+
 <div class="head container text-white">
     <p class="pt-5 mb-0">Flashcards</p>
     <hr class="mt-0">
 </div>
-<p class=" text text-white fs-4 ">Enter the name of the deck:</p>
-<div class="center-container">
 
-    <textarea class="form-control custom-textarea"></textarea>
-   <div class="d-flex gap-3">
-        <a type="button" class="btn btn-fill-custom d-flex justify-content-center align-items-center"
-           href="{% url 'flashcard'%}">
-            Save the deck
-        </a>
-        <a type="button" class="btn btn-fill-custom d-flex justify-content-center align-items-center"
-           href="{% url 'card' %}">
-            View the deck
-        </a>
-    </div>
+<p class="text text-white fs-4">Enter the name of the deck:</p>
+
+<div class="center-container">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <!-- Apply custom-input class directly to Django form field -->
+        {{ form.name|add_class:"custom-input" }}
+
+        <div class="d-flex gap-3 mt-4">
+            <button type="submit" class="btn btn-fill-custom d-flex justify-content-center align-items-center">Save the deck</button>
+            <a type="button" class="btn btn-fill-custom d-flex justify-content-center align-items-center" href="{% url 'card' %}">View and don't save the deck</a>
+        </div>
+    </form>
 </div>
 </body>
 </html>

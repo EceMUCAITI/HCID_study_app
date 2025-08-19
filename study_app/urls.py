@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 
-from study.views import index, Flashcard, InputText, load, NameFlashcards, card
+from study.views import index, Flashcard, InputText, load, NameFlashcards, card, saveDeck, InputVoice, leaveDeck,inputFile
 from django.conf.urls.static import static
 
 urlpatterns = [
@@ -29,6 +29,11 @@ urlpatterns = [
     path('load/',load, name='load'),
     path('nameFlashcards/',NameFlashcards, name='NameFlashcards'),
     path('card/',card, name='card'),
+    path('saveDeck/',saveDeck, name='saveDeck'),
+    path('leaveDeck/',leaveDeck, name='leaveDeck'),
+    path('InputVoice/',InputVoice, name='InputVoice'),
+    path('inputFile/',inputFile, name='inputFile'),
+
 
 
 

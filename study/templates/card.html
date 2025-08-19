@@ -12,12 +12,14 @@
 body {
     font-family: 'Rajdhani', sans-serif;
     background: #080F2B;
-    display: flex;
+
+}
+.b1{
+     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
 }
-
 .flashcard-container {
     perspective: 1000px;
     width: 300px;
@@ -106,15 +108,30 @@ body {
 </style>
 </head>
 <body>
+<nav class="navbar bg-body-tertiary p-0" >
+  <div class="container-fluid" style="background-color: #080F2B;">
+    <a class="navbar-brand btn text-white" href="{% url 'leaveDeck' %}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"></path>
+</svg></a>
+    <div class="d-flex" role="search">
+        <a class="btn text-white "  href="{% url 'index' %}">   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="me-2 bi bi-house" viewBox="0 0 16 16">
+  <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"></path>
+</svg></a>
+    </div>
+  </div>
+</nav>
+
+<div class="b1">
 
 <div class="flashcard-container">
     {% for card in cards %}
     <div class="flashcard {% if forloop.first %}active{% endif %}">
         <div class="flashcard-front">
-            <div class="content">Question: {{ card.question }}</div>
+            <div class="content">{{ card.question }}</div>
         </div>
         <div class="flashcard-back">
-            <div class="content">Answer: {{ card.answer }}</div>
+            <div class="content">{{ card.answer }}</div>
         </div>
     </div>
     {% endfor %}
@@ -126,16 +143,29 @@ body {
     </div>
 </div>
 
-
+</div>
 <script>
 let currentIndex = 0;
 const cards = document.querySelectorAll('.flashcard');
+const prevBtn = document.getElementById('prev');
+const nextBtn = document.getElementById('next');
 
 function showCard(index) {
     cards.forEach((card, i) => {
         card.classList.remove('active', 'is-flipped');
         if (i === index) card.classList.add('active');
     });
+
+    // change next button to End at last card
+    if (index === cards.length - 1) {
+        nextBtn.textContent = "End";
+        nextBtn.style.background = "transparent";
+        nextBtn.style.color = "white";
+    } else {
+        nextBtn.textContent = "Next →";
+        nextBtn.style.background = "#12A78A";
+        nextBtn.style.color = "white";
+    }
 }
 
 // Flip on click
@@ -146,18 +176,26 @@ cards.forEach(card => {
 });
 
 // Next button
-document.getElementById('next').addEventListener('click', e => {
+nextBtn.addEventListener('click', e => {
     e.stopPropagation();
-    currentIndex = (currentIndex + 1) % cards.length;
-    showCard(currentIndex);
+
+    if (currentIndex === cards.length - 1) {
+        // last card → redirect
+        window.location.href = "{% url 'flashcard' %}";
+    } else {
+        currentIndex++;
+        showCard(currentIndex);
+    }
 });
 
 // Prev button
-document.getElementById('prev').addEventListener('click', e => {
+prevBtn.addEventListener('click', e => {
     e.stopPropagation();
     currentIndex = (currentIndex - 1 + cards.length) % cards.length;
     showCard(currentIndex);
 });
+
+showCard(currentIndex);
 </script>
 
 </body>
