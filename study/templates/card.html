@@ -1,0 +1,164 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Flashcards</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/>
+<script src="{% static 'js/bootstrap.bundle.js' %}"></script>
+
+<style>
+body {
+    font-family: 'Rajdhani', sans-serif;
+    background: #080F2B;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.flashcard-container {
+    perspective: 1000px;
+    width: 300px;
+    position: relative;
+}
+
+.flashcard {
+    width: 100%;
+    height: 500px;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none; /* hide all by default */
+}
+
+.flashcard.active {
+    display: block; /* show only active card */
+}
+
+.flashcard.is-flipped {
+    transform: rotateY(180deg);
+}
+
+.flashcard-front,
+.flashcard-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    backface-visibility: hidden;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.flashcard-back {
+    background-color: #12A78A;
+    color: white;
+    transform: rotateY(180deg);
+}
+
+.top-buttons, .bottom-buttons {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+}
+
+.top-buttons button,
+.bottom-buttons button {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.card-buttons {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 520px; /* below the card */
+}
+
+.card-buttons button {
+    background: #12A78A;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.card-buttons button:hover {
+    background-color: #0e7a5d;
+}
+</style>
+</head>
+<body>
+
+<div class="flashcard-container">
+    {% for card in cards %}
+    <div class="flashcard {% if forloop.first %}active{% endif %}">
+        <div class="flashcard-front">
+            <div class="content">Question: {{ card.question }}</div>
+        </div>
+        <div class="flashcard-back">
+            <div class="content">Answer: {{ card.answer }}</div>
+        </div>
+    </div>
+    {% endfor %}
+
+    <!-- Buttons under the card -->
+    <div class="card-buttons">
+        <button id="prev">← Prev</button>
+        <button id="next">Next →</button>
+    </div>
+</div>
+
+
+<script>
+let currentIndex = 0;
+const cards = document.querySelectorAll('.flashcard');
+
+function showCard(index) {
+    cards.forEach((card, i) => {
+        card.classList.remove('active', 'is-flipped');
+        if (i === index) card.classList.add('active');
+    });
+}
+
+// Flip on click
+cards.forEach(card => {
+    card.addEventListener('click', () => {
+        card.classList.toggle('is-flipped');
+    });
+});
+
+// Next button
+document.getElementById('next').addEventListener('click', e => {
+    e.stopPropagation();
+    currentIndex = (currentIndex + 1) % cards.length;
+    showCard(currentIndex);
+});
+
+// Prev button
+document.getElementById('prev').addEventListener('click', e => {
+    e.stopPropagation();
+    currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+    showCard(currentIndex);
+});
+</script>
+
+</body>
+</html>

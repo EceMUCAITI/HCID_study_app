@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="{% static 'js/bootstrap.bundle.js' %}"></script>
+<style>
+    .app-title {
+  font-size: 100px; /* even larger */
+  font-weight: 300;
+   }
+
+
+    body{
+           color: #12A78A;
+    padding: 0;
+    margin: 0;
+    height: 100vh; /* full viewport height */
+    display: flex;
+    justify-content: center;  /* horizontal center */
+    align-items: center;      /* vertical center */
+    background-image: url("{% static 'images/bg1.png' %}");
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: 'Rajdhani', sans-serif;
+    }
+    .btn-outline-custom {
+  color: #12A78A;
+  border-color: #12A78A;
+}
+
+.btn-outline-custom:hover {
+  color: #fff;
+  background-color: #12A78A;
+  border-color: #12A78A;
+}
+
+</style>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="container flex-direction-column align-self-center">
+<p class="app-title pb-2 text-white">App name</p>
+<ul class="list-unstyled">
+   <li class="pt-3">
+      <a href="{% url 'flashcard' %}" type="button" class="btn btn-outline-custom w-25 d-flex justify-content-between align-items-center">
+        Flashcard
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+             class="bi bi-caret-right" viewBox="0 0 16 16">
+          <path d="M6 12.796V3.204L11.481 8zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753"></path>
+        </svg>
+      </a>
+    </li>
+    <li class="pt-3">
+      <a type="button" class="btn btn-outline-custom w-25 d-flex justify-content-between align-items-center">
+        Generate Summary
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+             class="bi bi-caret-right" viewBox="0 0 16 16">
+          <path d="M6 12.796V3.204L11.481 8zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753"></path>
+        </svg>
+      </a>
+    </li>
+    <li class="pt-3">
+      <a type="button" class="btn btn-outline-custom w-25 d-flex justify-content-between align-items-center">
+        Assignment Grading
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+             class="bi bi-caret-right" viewBox="0 0 16 16">
+          <path d="M6 12.796V3.204L11.481 8zm.659.753 5.48-4.796a1 1 0 0 0 0-1.506L6.66 2.451C6.011 1.885 5 2.345 5 3.204v9.592a1 1 0 0 0 1.659.753"></path>
+        </svg>
+      </a>
+    </li>
+</ul>
+    </div>
+</body>
+</html>
