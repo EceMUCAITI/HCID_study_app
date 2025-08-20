@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 
-from study.views import index, Flashcard, InputText, load, NameFlashcards, card, saveDeck, InputVoice, leaveDeck,inputFile
+from study.views import *
 from django.conf.urls.static import static
 
 urlpatterns = [
@@ -33,9 +33,8 @@ urlpatterns = [
     path('leaveDeck/',leaveDeck, name='leaveDeck'),
     path('InputVoice/',InputVoice, name='InputVoice'),
     path('inputFile/',inputFile, name='inputFile'),
-
-
-
+    path("flashcard/<int:card_id>/toggle-favourite/", toggle_favourite, name="toggle_favourite"),
+path("flashcard/<int:card_id>/delete/", delete_flashcard, name="delete_flashcard"),
 
 
 ]

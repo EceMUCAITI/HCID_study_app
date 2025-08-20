@@ -1,10 +1,20 @@
-from django.shortcuts import render, redirect
+from django.http import JsonResponse
+from django.shortcuts import render, redirect, get_object_or_404
 
 from study.models import flashcardSet, flashcard
 from study.form import FlashcardSetForm
 
 
 # Create your views here.
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt  # if you're not sending CSRF in fetch, but better to use token
+def delete_flashcard(request, card_id):
+    if request.method == "POST":
+        card = get_object_or_404(flashcard, id=card_id)
+        card.delete()
+        return JsonResponse({"deleted": True})
+    return JsonResponse({"deleted": False}, status=400)
 def index(request):
     return render(request, 'index.html')
 
@@ -39,6 +49,13 @@ def leaveDeck(request):
 
 def InputVoice(request):
     return render(request,"InputVoice.html")
+
+def toggle_favourite(request, card_id):
+    if request.method == "POST":  # only allow POST
+        card = get_object_or_404(flashcard, id=card_id)
+        card.favourite = not card.favourite
+        card.save()
+        return JsonResponse({"favourite": card.favourite})
 
 
 def Flashcard(request):
